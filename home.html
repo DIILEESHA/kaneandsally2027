@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kane & Sally — Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* Full bleed hero */
+      .hero {
+        position: relative;
+        height: calc(100vh - var(--nav-h));
+        min-height: 500px;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 0%;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          300deg,
+          rgba(23, 20, 15, 0.05) 70%,
+          rgba(23, 20, 15, 0.08) 80%,
+          rgba(23, 20, 15, 0.65) 100%
+        );
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 0 5rem 5rem;
+        width: 100%;
+      }
+
+      .hero-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 1rem;
+      }
+
+      .hero-names {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(4.5rem, 13vw, 9rem);
+        font-weight: 300;
+        font-style: italic;
+        color: #fff;
+        line-height: 0.88;
+        letter-spacing: -0.01em;
+      }
+
+      .hero-names .amp {
+        color: rgba(184, 147, 90, 0.9);
+        display: block;
+        font-size: 0.5em;
+        line-height: 1.4;
+        margin-left: 0.08em;
+      }
+
+      .hero-meta {
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .hero-meta p {
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.65);
+        font-weight: 200;
+      }
+
+      .hero-meta .hero-sep {
+        width: 1px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.25);
+        flex-shrink: 0;
+      }
+
+      .hero-cta {
+        margin-top: 2.5rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn-hero-outline {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.9);
+        background: transparent;
+        text-decoration: none;
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        font-size: 0.68rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        padding: 0.9rem 2.2rem;
+        transition: all 0.3s;
+      }
+      .btn-hero-outline:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.8);
+      }
+
+      .btn-hero-gold {
+        border: 1px solid var(--gold);
+        color: var(--cream);
+        background: var(--gold);
+        text-decoration: none;
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        font-size: 0.68rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        padding: 0.9rem 2.2rem;
+        transition: all 0.3s;
+      }
+      .btn-hero-gold:hover {
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.5rem;
+        right: 5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 3;
+      }
+      .scroll-hint span {
+        font-size: 0.58rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+        writing-mode: vertical-rl;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(
+          to bottom,
+          rgba(184, 147, 90, 0.8),
+          transparent
+        );
+        animation: scrollPulse 2.2s infinite;
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          transform: scaleY(0.6);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      /* Stats strip */
+      .stats-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: 1px solid rgba(184, 147, 90, 0.15);
+      }
+
+      .stat-item {
+        padding: 3rem 2.5rem;
+        text-align: center;
+        position: relative;
+      }
+      .stat-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 25%;
+        bottom: 25%;
+        width: 1px;
+        background: rgba(184, 147, 90, 0.15);
+      }
+      .stat-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.8rem;
+      }
+      .stat-value {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text);
+        line-height: 1.2;
+      }
+      .stat-sub {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        font-weight: 200;
+        margin-top: 0.4rem;
+        letter-spacing: 0.04em;
+      }
+
+      /* Image grid strip */
+      .img-strip {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 3px;
+        margin: 0;
+      }
+
+      .img-strip-item {
+        overflow: hidden;
+        position: relative;
+      }
+
+      .img-strip-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        aspect-ratio: auto;
+        transition: transform 0.7s ease;
+      }
+
+      .img-strip-item:first-child {
+        aspect-ratio: 16/9;
+      }
+      .img-strip-item:not(:first-child) {
+        aspect-ratio: 1/1;
+      }
+      .img-strip-item:hover img {
+        transform: scale(1.04);
+      }
+
+      /* Welcome section */
+      .welcome-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        max-width: 1280px;
+        margin: 40px auto;
+        padding: 0 0 0 0;
+      }
+
+      .welcome-text {
+        padding: 6rem 5rem 6rem 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .welcome-img {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        /* overflow: hidden; */
+        border: 1px solid var(--gold);
+        margin-top: 50px;
+        height: 80vh;
+        position: relative;
+      }
+
+      .welcome-img::after {
+        position: absolute;
+        content: "";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border: 1px solid var(--gold);
+        top: 10px;
+right: 10px;
+
+      }
+      .welcome-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+      }
+
+      .welcome-body {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.05rem, 2vw, 1.2rem);
+        font-weight: 300;
+        line-height: 1.95;
+        color: var(--text-light);
+        margin: 1.5rem 0 2.5rem;
+        font-style: italic;
+      }
+      .welcome-body strong {
+        color: var(--text);
+        font-style: normal;
+        font-weight: 400;
+      }
+
+      /* Nav tiles */
+      .nav-tiles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3px;
+        background: rgba(184, 147, 90, 0.1);
+        max-width: 100%;
+      }
+
+      .nav-tile {
+        background: var(--cream);
+        padding: 0;
+        text-decoration: none;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        transition: background 0.3s;
+      }
+
+      .nav-tile-img {
+        overflow: hidden;
+        aspect-ratio: 4/3;
+      }
+
+      .nav-tile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.7s ease;
+        filter: brightness(0.92);
+      }
+
+      .nav-tile:hover .nav-tile-img img {
+        transform: scale(1.06);
+      }
+
+      .nav-tile-info {
+        padding: 1.5rem 1.8rem 2rem;
+        border-top: 1px solid rgba(184, 147, 90, 0.12);
+      }
+
+      .nav-tile-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.35rem;
+      }
+
+      .nav-tile-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.2rem;
+        font-weight: 300;
+        font-style: italic;
+        color: var(--text);
+      }
+
+      @media (max-width: 900px) {
+        .welcome-section {
+          grid-template-columns: 1fr;
+        }
+        .welcome-img {
+          min-height: 340px;
+          position: relative;
+        }
+        .welcome-img img {
+          position: relative;
+          height: 340px;
+        }
+        .welcome-text {
+          padding: 4rem 2.5rem;
+        }
+        .nav-tiles {
+          grid-template-columns: 1fr 1fr;
+        }
+        .hero-content {
+          padding: 0 2.5rem 4rem;
+        }
+        .scroll-hint {
+          right: 2.5rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .stats-strip {
+          grid-template-columns: 1fr;
+        }
+        .stat-item:not(:last-child)::after {
+          right: 20%;
+          top: auto;
+          bottom: 0;
+          left: 20%;
+          width: auto;
+          height: 1px;
+        }
+        .img-strip {
+          grid-template-columns: 1fr 1fr;
+        }
+        .img-strip-item:first-child {
+          grid-column: 1 / -1;
+          aspect-ratio: 16/9;
+        }
+        .img-strip-item:not(:first-child) {
+          aspect-ratio: 1/1;
+        }
+        .nav-tiles {
+          grid-template-columns: 1fr;
+        }
+        .hero-cta {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script src="shared.js"></script>
+    <script>
+      injectNav("home");
+    </script>
+
+    <!-- HERO -->
+    <section class="hero">
+      <img
+        class="hero-img"
+        src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608802/846DFB2B-A18A-42CA-AA18-19705B0B5626_k5jyuo.jpg"
+        alt="Hacienda wedding"
+      />
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content fade-up">
+        <p class="hero-label">An intimate wedding celebration</p>
+        <div class="hero-names">
+          <span>Kane</span>
+          <span class="amp">&</span>
+          <span>Sally</span>
+        </div>
+        <div class="hero-meta">
+          <p>19th – 21st February 2027</p>
+          <div class="hero-sep"></div>
+          <p>Hacienda Acamilpa</p>
+          <div class="hero-sep"></div>
+          <p>Morelos, Mexico</p>
+        </div>
+        <div class="hero-cta">
+          <a href="itinerary.html" class="btn-hero-outline">View Itinerary</a>
+          <a href="rsvp.html" class="btn-hero-gold">RSVP Now</a>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-strip">
+      <div class="stat-item fade-up fade-up-1">
+        <p class="stat-label">When</p>
+        <p class="stat-value">Three Days</p>
+        <p class="stat-sub">19th – 21st February 2027</p>
+      </div>
+      <div class="stat-item fade-up fade-up-2">
+        <p class="stat-label">Where</p>
+        <p class="stat-value">Hacienda Acamilpa</p>
+        <p class="stat-sub">Morelos, Mexico</p>
+      </div>
+      <div class="stat-item fade-up fade-up-3">
+        <p class="stat-label">RSVP By</p>
+        <p class="stat-value">July 2026</p>
+        <p class="stat-sub">An intimate celebration for those closest to us</p>
+      </div>
+    </div>
+
+    <!-- WELCOME -->
+    <section class="welcome-section">
+      <div class="s welcome-text fade-up">
+        <p class="section-tag">Welcome</p>
+        <h2 class="section-title">
+          A celebration of love, shared with those we cherish
+        </h2>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-diamond"></div>
+          <div class="divider-line" style="max-width: 100%"></div>
+        </div>
+        <p class="welcome-body">
+          We would love to formally invite you to the wedding of
+          <strong>Kane & Sally</strong>, to share our love with the people
+          closest to us — and that means you. <br /><br />
+          Set across three days in the beautiful surroundings of
+          <strong>Hacienda Acamilpa</strong>, we've crafted an experience filled
+          with incredible entertainment, wonderful food, and the joy of
+          celebrating together. <br /><br />
+          On a weekend aligned with a special celestial moment, we come together
+          in marriage beneath the stars. Bring your dancing shoes.
+        </p>
+        <a href="rsvp.html" style="text-align: center;" class="btn-outline">Confirm Your Attendance</a>
+      </div>
+      <div class="s welcome-img fade-up fade-up-2">
+        <img
+          src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608825/DDB9106C-D64B-4E44-BA92-E1F1BB4F70AE_edommn.jpg"
+          alt="Couple"
+          loading="lazy"
+        />
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+    </footer>
+  </body>
+</html>

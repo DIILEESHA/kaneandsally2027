@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — Itinerary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .hero-banner {
+    position: relative;
+    height: 52vh;
+    min-height: 340px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-banner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+  }
+  .hero-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(23,20,15,0.1) 0%, rgba(23,20,15,0.72) 100%);
+  }
+  .hero-banner-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem 3.5rem;
+    width: 100%;
+  }
+  .hero-banner-content .section-tag { color: rgba(184,147,90,0.9); }
+  .hero-banner-content .section-title { color: #fff; }
+  .hero-banner-content .divider-line { background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent); }
+  .hero-banner-content .divider-diamond { background: var(--gold); }
+  .hero-banner-content p.sub { font-size: 0.75rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.55); font-weight: 200; margin-top: 0.5rem; }
+
+  /* Day tabs */
+  .day-tabs-wrap {
+    border-bottom: 1px solid rgba(184,147,90,0.15);
+    position: sticky;
+    top: var(--nav-h);
+    background: var(--cream);
+    z-index: 100;
+  }
+  .day-tabs {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .day-tabs::-webkit-scrollbar { display: none; }
+  .day-tab {
+    padding: 1.2rem 1.8rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    transition: color 0.2s;
+    position: relative;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .day-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .day-tab.active { color: var(--gold); }
+  .day-tab.active::after { transform: scaleX(1); }
+
+  /* Day panels */
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  /* Day layout */
+  .day-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    align-items: start;
+  }
+
+  .day-timeline-col { padding: 3.5rem 3rem 4rem 0; border-right: 1px solid rgba(184,147,90,0.12); }
+  .day-img-col { padding: 3.5rem 0 4rem 3rem; }
+
+  .day-header { margin-bottom: 3rem; }
+  .day-num { font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .day-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 300; font-style: italic; color: var(--text); }
+  .day-date-str { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--text-muted); margin-top: 0.5rem; font-weight: 200; }
+
+  /* Timeline */
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0.4rem; bottom: 0;
+    width: 1px; background: linear-gradient(to bottom, var(--gold), rgba(184,147,90,0.08));
+  }
+  .tl-item { position: relative; padding: 0 0 2.5rem 2rem; }
+  .tl-dot {
+    position: absolute; left: -1.73rem; top: 0.3rem;
+    width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg);
+  }
+  .tl-time { font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .tl-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.45rem); font-weight: 300; font-style: italic; color: var(--text); margin-bottom: 0.5rem; }
+  .tl-desc { font-size: 0.85rem; color: var(--text-light); font-weight: 200; line-height: 1.75; max-width: 440px; }
+  .tl-dress {
+    margin-top: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    background: rgba(184,147,90,0.04);
+  }
+  .tl-dress p { font-size: 0.83rem; color: var(--text-light); line-height: 1.65; font-weight: 200; }
+  .tl-dress strong { color: var(--text); font-weight: 400; }
+  .tl-dress .no { margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(184,147,90,0.18); color: #9a7a6a; font-style: italic; font-size: 0.8rem; }
+
+  /* Day images */
+  .day-imgs { display: flex; flex-direction: column; gap: 8px; position: sticky; top: calc(var(--nav-h) + 56px); }
+  .day-img-main { aspect-ratio: 4/3; overflow: hidden; }
+  .day-img-main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .day-img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .day-img-pair > div { aspect-ratio: 1/1; overflow: hidden; }
+  .day-img-pair > div img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  @media (max-width: 900px) {
+    .day-layout { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .day-timeline-col { padding: 3rem 0 1rem; border-right: none; }
+    .day-img-col { padding: 0 0 4rem; }
+    .day-imgs { position: static; }
+    .hero-banner-content { padding: 0 2rem 2.5rem; }
+    .day-tabs { padding: 0 1.5rem; }
+  }
+
+
+  @media (max-width:600px){
+      /* Day tabs */
+  .day-tabs-wrap {
+overflow: hidden;
+width: 100%;
+    /* display: flex;flex-direction: column; */
+    /* border-bottom: 1px solid rgba(184,147,90,0.15);
+    position: sticky;
+    top: var(--nav-h);
+    background: var(--cream);
+    z-index: 100; */
+  }
+  .day-tabs {
+    overflow: hidden;
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 ;
+    /* overflow-x: auto; */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('itinerary');</script>
+
+<div class="hero-banner">
+  <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1400&q=80&auto=format&fit=crop&crop=center" alt="Hacienda">
+  <div class="hero-banner-overlay"></div>
+  <div class="hero-banner-content">
+    <p class="section-tag">The Celebrations</p>
+    <h1 class="section-title">Weekend Itinerary</h1>
+    <div class="divider" style="margin:1rem 0 0;">
+      <div class="divider-line" style="max-width:60px;"></div>
+      <div class="divider-diamond"></div>
+    </div>
+    <p class="sub">19th – 21st February 2027 · Hacienda Acamilpa, Morelos</p>
+  </div>
+</div>
+
+<div class="day-tabs-wrap">
+  <div class="day-tabs">
+    <button class="day-tab active" onclick="showDay('day1',this)">Day 1 — Friday</button>
+    <button class="day-tab" onclick="showDay('day2',this)">Day 2 — Saturday</button>
+    <button class="day-tab" onclick="showDay('day3',this)">Day 3 — Sunday</button>
+  </div>
+</div>
+
+<!-- DAY 1 -->
+<div class="day-panel active" id="day1">
+  <div class="day-layout">
+    <div class="day-timeline-col">
+      <div class="day-header">
+        <p class="day-num">Day One</p>
+        <h2 class="day-title">Welcome Dinner</h2>
+        <p class="day-date-str">Friday, 19th February 2027</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">7:30 PM — Arrival</p>
+          <h3 class="tl-title">Welcome at Hacienda Acamilpa</h3>
+          <p class="tl-desc">An elegant welcome evening to begin the celebrations. Guests arrive at the hacienda ready to meet, mingle, and begin the most unforgettable weekend.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">Evening</p>
+          <h3 class="tl-title">Welcome Dinner</h3>
+          <p class="tl-desc">A refined dinner to bring everyone together for the first time, setting the tone for the celebrations ahead.</p>
+          <div class="tl-dress">
+            <p><strong>Dress Code — All Black</strong></p>
+            <p>Women: Black dresses &nbsp;·&nbsp; Men: Black suits</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-img-col">
+      <div class="day-imgs">
+        <div class="day-img-main">
+          <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=700&q=80&auto=format&fit=crop" alt="Welcome dinner">
+        </div>
+        <div class="day-img-pair">
+          <div><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=75&auto=format&fit=crop" alt="Table setting"></div>
+          <div><img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=75&auto=format&fit=crop" alt="Champagne"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-panel" id="day2">
+  <div class="day-layout">
+    <div class="day-timeline-col">
+      <div class="day-header">
+        <p class="day-num">Day Two</p>
+        <h2 class="day-title">The Wedding Day</h2>
+        <p class="day-date-str">Saturday, 20th February 2027</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">12:30 – 1:00 PM</p>
+          <h3 class="tl-title">Guest Transport</h3>
+          <p class="tl-desc">Guests collected from both hotels and transported to the venue. Transport runs throughout the day and evening.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">On Arrival</p>
+          <h3 class="tl-title">Arrival & Champagne Welcome</h3>
+          <p class="tl-desc">Guests arrive into the courtyard for a champagne welcome, soaking in the beautiful surroundings of the hacienda.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">2:22 PM</p>
+          <h3 class="tl-title">The Ceremony</h3>
+          <p class="tl-desc">A special moment marking the union of Kane & Sally, held on the hacienda grounds beneath the open sky.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">Post-Ceremony</p>
+          <h3 class="tl-title">Champagne & Courtyard</h3>
+          <p class="tl-desc">Guests return to the courtyard for champagne and seating as the afternoon celebration unfolds.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">Evening</p>
+          <h3 class="tl-title">Reception — Secret Garden Marquee</h3>
+          <p class="tl-desc">An evening of dining, music, and celebration in the enchanting Secret Garden Marquee.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">10:30 PM</p>
+          <h3 class="tl-title">After Party</h3>
+          <p class="tl-desc">The celebration continues in a special transformed space. Incredible DJs and special guest sets into the early hours.</p>
+          <div class="tl-dress">
+            <p><strong>Dress Code — Glamorous / Evening Wear</strong></p>
+            <p>Women: Long dresses &nbsp;·&nbsp; Men: Suits</p>
+            <p class="no">Please do not wear: black, white, cream, gold, or silver.<br>Bright colours are warmly encouraged.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-img-col">
+      <div class="day-imgs">
+        <div class="day-img-main">
+          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=700&q=80&auto=format&fit=crop" alt="Wedding ceremony">
+        </div>
+        <div class="day-img-pair">
+          <div><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=75&auto=format&fit=crop" alt="Ceremony flowers"></div>
+          <div><img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=400&q=75&auto=format&fit=crop" alt="Reception"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-panel" id="day3">
+  <div class="day-layout">
+    <div class="day-timeline-col">
+      <div class="day-header">
+        <p class="day-num">Day Three</p>
+        <h2 class="day-title">Final Hacienda Fiesta</h2>
+        <p class="day-date-str">Sunday, 21st February 2027</p>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">2:00 PM</p>
+          <h3 class="tl-title">Poolside Fiesta Begins</h3>
+          <p class="tl-desc">A relaxed, boho-style poolside celebration. Beautiful music, incredible food, and a perfect day-to-evening atmosphere.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <p class="tl-time">Afternoon & Evening</p>
+          <h3 class="tl-title">Music, Food & Dancing</h3>
+          <p class="tl-desc">Live DJs, wonderful food and drinks, and the warmth of celebrating together one last magical time.</p>
+          <div class="tl-dress">
+            <p><strong>Dress Code — Boho / Relaxed</strong></p>
+            <p>Swimwear welcome &nbsp;·&nbsp; Sun-kissed, boho vibes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="day-img-col">
+      <div class="day-imgs">
+        <div class="day-img-main">
+          <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=700&q=80&auto=format&fit=crop" alt="Pool party">
+        </div>
+        <div class="day-img-pair">
+          <div><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400&q=75&auto=format&fit=crop" alt="Pool"></div>
+          <div><img src="https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?w=400&q=75&auto=format&fit=crop" alt="DJ"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+
+<script>
+  function showDay(id, btn) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    // window.scrollTo({ top: document.querySelector('.day-tabs-wrap').offsetTop - 10, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

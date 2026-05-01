@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — Travel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .hero-banner { position:relative; height:44vh; min-height:300px; overflow:hidden; display:flex; align-items:flex-end; }
+  .hero-banner img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 60%; }
+  .hero-banner-overlay { position:absolute; inset:0; background:linear-gradient(180deg,rgba(23,20,15,.08) 0%,rgba(23,20,15,.72) 100%); }
+  .hero-banner-content { position:relative; z-index:2; padding:0 4rem 3rem; }
+  .hero-banner-content .section-tag { color:rgba(184,147,90,.9); }
+  .hero-banner-content .section-title { color:#fff; }
+  .hero-banner-content p.sub { font-size:.75rem; letter-spacing:.18em; color:rgba(255,255,255,.55); font-weight:200; margin-top:.4rem; }
+
+  /* Split content */
+  .content-split { display:grid; grid-template-columns:1fr 420px; gap:0; max-width:1100px; margin:0 auto; padding:4rem 3rem; align-items:start; }
+  .content-split-text { padding-right:4rem; border-right:1px solid rgba(184,147,90,.12); }
+  .content-split-img { padding-left:3.5rem; }
+  .content-split-img img { width:100%; display:block; aspect-ratio:3/4; object-fit:cover; }
+  .content-split-img .img-sub { margin-top:8px; }
+  .content-split-img .img-sub img { aspect-ratio:16/7; margin-top:0; }
+
+  .info-block { padding:2rem 0; border-top:1px solid rgba(184,147,90,.1); }
+  .info-block:first-child { padding-top:0; border-top:none; }
+  .info-block h3 { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-weight:300; font-style:italic; color:var(--text); margin-bottom:.7rem; }
+  .info-block p { font-size:.88rem; color:var(--text-light); font-weight:200; line-height:1.85; }
+
+  .airport-box { background:rgba(184,147,90,.06); border:1px solid rgba(184,147,90,.2); padding:2rem; margin-bottom:2rem; display:flex; align-items:center; gap:2rem; }
+  .airport-code { font-family:'Cormorant Garamond',serif; font-size:3.5rem; font-weight:300; color:var(--gold); line-height:1; flex-shrink:0; }
+  .airport-info h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:300; font-style:italic; color:var(--text); margin-bottom:.3rem; }
+  .airport-info p { font-size:.83rem; color:var(--text-light); font-weight:200; line-height:1.7; }
+
+  @media (max-width:900px) {
+    .content-split { grid-template-columns:1fr; padding:3rem 1.5rem; }
+    .content-split-text { padding-right:0; border-right:none; padding-bottom:2.5rem; border-bottom:1px solid rgba(184,147,90,.12); }
+    .content-split-img { padding-left:0; padding-top:2.5rem; }
+    .hero-banner-content { padding:0 2rem 2.5rem; }
+    .airport-box { flex-direction:column; text-align:center; gap:1rem; }
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('travel');</script>
+
+<div class="hero-banner">
+  <img  src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=80&auto=format&fit=crop" alt="Travel">
+  <div class="hero-banner-overlay"></div>
+  <div class="hero-banner-content">
+    <p class="section-tag">Getting Here</p>
+    <h1 class="section-title">Travel & Transport</h1>
+    <p class="sub">Everything you need to know about reaching us in Mexico</p>
+  </div>
+</div>
+
+<div class="content-split">
+  <div class="content-split-text">
+    <div class="airport-box">
+      <div class="airport-code">CDMX</div>
+      <div class="airport-info">
+        <h3>Mexico City International Airport</h3>
+        <p>Guests are advised to fly into Mexico City International Airport. Private transport will be waiting to take you directly to your hotel, ready for the celebrations.</p>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <h3>Flying Direct to Mexico City</h3>
+      <p>The most straightforward option is a direct flight into Mexico City International Airport (CDMX). From arrival, private transport will be on hand at any time to take you straight to your hotel — no need to arrange anything yourself.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>Via Cancún — Extend Your Trip</h3>
+      <p>For those wishing to extend their trip, you may choose to fly via Cancún and enjoy a holiday beforehand. We will ourselves be flying from Cancún to Mexico City a few days before the wedding — you're welcome to join us on that journey.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>Weekend Transport</h3>
+      <p>Throughout the entire wedding weekend, transport will be arranged between both hotels and Hacienda Acamilpa. Guests will be collected on Saturday between 12:30 – 1:00 PM, with transport available to and from the venue at all times across all three days.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>Concierge Service</h3>
+      <p>A dedicated concierge and driver service will be available throughout the weekend. Driver details will be shared in advance. For any assistance — from airport transfers to last-minute requests — we are here for you.</p>
+    </div>
+  </div>
+
+  <div class="content-split-img">
+    <img src="https://images.unsplash.com/photo-1583416750470-965b2707b355?w=600&q=80&auto=format&fit=crop" alt="Mexico City">
+    <div class="img-sub">
+      <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=75&auto=format&fit=crop" alt="Mexico landscape">
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+</body>
+</html>

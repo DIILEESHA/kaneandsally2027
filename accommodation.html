@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — Accommodation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    min-height: 42vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 25% 60%, rgba(184,147,90,0.07) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 30%, rgba(184,147,90,0.05) 0%, transparent 45%);
+    pointer-events: none;
+  }
+
+  /* ── HOTEL CARDS ── */
+  .hotel-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .hotel-card {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(184,147,90,0.22);
+    overflow: hidden;
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hotel-card:nth-child(1) { animation-delay: 0.1s; }
+  .hotel-card:nth-child(2) { animation-delay: 0.25s; }
+
+  /* Hotel image */
+  .hotel-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    flex-shrink: 0;
+  }
+
+  .hotel-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s ease;
+  }
+
+  .hotel-card:hover .hotel-img-wrap img {
+    transform: scale(1.04);
+  }
+
+  /* Small gallery strip under main image */
+  .hotel-img-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .hotel-img-strip .strip-img {
+    aspect-ratio: 16/8;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hotel-img-strip .strip-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+    filter: brightness(0.92);
+  }
+
+  .hotel-card:hover .hotel-img-strip .strip-img img {
+    transform: scale(1.05);
+  }
+
+  /* Text content */
+  .hotel-card-top {
+    padding: 2rem 2.2rem 1.8rem;
+    border-bottom: 1px solid rgba(184,147,90,0.12);
+    flex: 1;
+  }
+
+  .hotel-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(184,147,90,0.12);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .hotel-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 0.9rem;
+  }
+
+  .hotel-address {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-weight: 200;
+    line-height: 1.7;
+    font-style: italic;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .hotel-address::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 28px;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.5;
+  }
+
+  .hotel-card-bottom {
+    padding: 1.2rem 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .transport-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .transport-badge::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── NOTE BOX ── */
+  .note-box {
+    background: rgba(184,147,90,0.05);
+    border: 1px solid rgba(184,147,90,0.18);
+    padding: 2rem 2.5rem;
+    margin: 0.5rem 0 3rem;
+    animation: fadeUp 0.7s 0.4s ease forwards;
+    opacity: 0;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .note-diamond {
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .note-box p {
+    font-size: 0.87rem;
+    color: var(--text-light);
+    font-weight: 200;
+    line-height: 1.85;
+  }
+
+  .note-box strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── VENUE STRIP ── */
+  .venue-strip {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3px;
+    margin-top: 3rem;
+    animation: fadeUp 0.7s 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .venue-strip-item {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .venue-strip-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s ease;
+  }
+
+  .venue-strip-item:first-child { aspect-ratio: 16/8; }
+  .venue-strip-item:not(:first-child) { aspect-ratio: 1/1; }
+  .venue-strip-item:hover img { transform: scale(1.05); }
+
+  .venue-label {
+    text-align: center;
+    margin-top: 2rem;
+    animation: fadeUp 0.7s 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .venue-label p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 720px) {
+    .hotel-cards { grid-template-columns: 1fr; }
+    .hotel-card-top, .hotel-card-bottom { padding: 1.8rem 1.6rem; }
+    .note-box { padding: 1.5rem 1.5rem; gap: 1rem; }
+    .venue-strip { grid-template-columns: 1fr 1fr; }
+    .venue-strip-item:first-child { grid-column: 1 / -1; aspect-ratio: 16/7; }
+  }
+
+  @media (max-width: 480px) {
+    .hotel-img-strip { grid-template-columns: 1fr; }
+    .hotel-img-strip .strip-img { aspect-ratio: 16/6; }
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('accommodation');</script>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div>
+    <p class="section-tag fade-up fade-up-1">Where to Stay</p>
+    <h1 class="section-title fade-up fade-up-2">Accommodation</h1>
+    <div class="divider centered fade-up fade-up-3">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+    <p style="font-size:0.78rem;letter-spacing:0.16em;color:var(--text-light);font-weight:200;" class="fade-up fade-up-3">
+      Two beautiful hotels, both with dedicated transport throughout the weekend
+    </p>
+  </div>
+</section>
+
+<!-- HOTEL CARDS -->
+<div class="page-content" style="padding-top:0;">
+
+  <div class="hotel-cards">
+
+    <!-- Hotel 1 -->
+    <div class="hotel-card">
+      <!-- Main image -->
+      <div class="hotel-img-wrap">
+        <!-- REPLACE: swap this src with your Fiesta Americana hotel photo -->
+        <img
+          src="https://image-tc.galaxy.tf/wijpeg-779uf0hquynglrmagqb7omyll/_photo.jpg"
+          alt="Fiesta Americana Hacienda San Antonio El Puente Resort & Spa"
+          loading="lazy">
+      </div>
+      <!-- 2-image strip -->
+      <div class="hotel-img-strip">
+        <!-- REPLACE: hotel room / pool / spa images -->
+        <div class="strip-img">
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/24/a6/a9/jardin-caballerizas.jpg?w=1400&h=-1&s=1" alt="Hotel room" loading="lazy">
+        </div>
+        <div class="strip-img">
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/47/91/ca/spa.jpg?w=1400&h=-1&s=1" alt="Hotel pool" loading="lazy">
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="hotel-card-top">
+        <div class="hotel-number">01</div>
+        <h2 class="hotel-name">Fiesta Americana Hacienda San Antonio El Puente Resort & Spa</h2>
+        <p class="hotel-address">Reforma No. 2, Real del Puente,<br>62790 Xochitepec, Morelos, Mexico</p>
+      </div>
+      <div class="hotel-card-bottom">
+        <span class="transport-badge">Transport Provided Throughout the Weekend</span>
+      </div>
+    </div>
+
+    <!-- Hotel 2 -->
+    <div class="hotel-card">
+      <!-- Main image -->
+      <div class="hotel-img-wrap">
+        <!-- REPLACE: swap this src with your Radisson hotel photo -->
+        <img
+          src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/28/41/11/radisson-hotel-quinta.jpg?w=2000&h=-1&s=1"
+          alt="Radisson Hotel Cuernavaca"
+          loading="lazy">
+      </div>
+      <!-- 2-image strip -->
+      <div class="hotel-img-strip">
+        <!-- REPLACE: hotel room / lobby images -->
+        <div class="strip-img">
+          <img src="http://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/28/43/5b/radisson-hotel-quinta.jpg?w=2000&h=-1&s=1" alt="Hotel room" loading="lazy">
+        </div>
+        <div class="strip-img">
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/28/44/e7/radisson-hotel-quinta.jpg?w=2000&h=-1&s=1" alt="Hotel lobby" loading="lazy">
+        </div>
+      </div>
+      <!-- Text -->
+      <div class="hotel-card-top">
+        <div class="hotel-number">02</div>
+        <h2 class="hotel-name">Radisson Hotel Cuernavaca</h2>
+        <p class="hotel-address">Avenida Francisco I. Madero 25,<br>62767 Cuernavaca, Morelos, Mexico</p>
+      </div>
+      <div class="hotel-card-bottom">
+        <span class="transport-badge">Transport Provided Throughout the Weekend</span>
+      </div>
+    </div>
+
+  </div><!-- /hotel-cards -->
+
+  <!-- Note -->
+  <div class="note-box">
+    <div class="note-diamond"></div>
+    <p>
+      <strong>Transport is provided from both hotels throughout the entire weekend.</strong>
+      Guests will be collected and taken to the venue on the wedding day, with transport available
+      to and from Hacienda Acamilpa across all three days. Our concierge team will ensure you are
+      completely looked after from the moment you arrive in Mexico.
+    </p>
+  </div>
+
+
+
+  <div class="venue-label">
+    <p>Hacienda Acamilpa · Morelos, Mexico</p>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+</body>
+</html>

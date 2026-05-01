@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — Dress Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* base & shared variables (fallback in case shared.css missing) */
+  :root {
+    --bg: #faf7f0;
+    --text: #2a2418;
+    --text-light: #6a5e4a;
+    --gold: #b8975c;
+    --border-light: rgba(184, 151, 92, 0.2);
+  }
+
+  body {
+    background-color: var(--bg);
+    margin: 0;
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+  }
+
+  .dress-days {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .dress-day-card {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(201,169,110,0.2);
+    overflow: hidden;
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .dress-day-card:nth-child(1) { animation-delay: 0.1s; }
+  .dress-day-card:nth-child(2) { animation-delay: 0.25s; }
+  .dress-day-card:nth-child(3) { animation-delay: 0.4s; }
+
+  .dress-card-header {
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .dress-day-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .dress-day-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .dress-style-pill {
+    border: 1px solid var(--gold);
+    padding: 0.4rem 1.1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  .dress-card-body {
+    padding: 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .dress-gender h4 {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.6rem;
+  }
+
+  .dress-gender p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .dress-no-wear {
+    grid-column: 1 / -1;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(201,169,110,0.15);
+  }
+
+  .dress-no-wear h4 {
+    font-size: 0.63rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b07070;
+    margin-bottom: 0.6rem;
+  }
+
+  .dress-no-wear p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 200;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .colour-note {
+    background: rgba(201,169,110,0.06);
+    border: 1px solid rgba(201,169,110,0.2);
+    padding: 2rem 2.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    animation: fadeUp 0.7s 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .colour-note p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-light);
+  }
+
+  .colour-note strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ----- INSPIRATION IMAGE GRID SECTION (enhanced with 5 images) ----- */
+  .inspiration-grid-section {
+    margin-top: 4rem;
+    animation: fadeUp 0.7s 0.65s ease forwards;
+    opacity: 0;
+  }
+
+  .inspiration-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .inspiration-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .inspiration-header .section-mini-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.6rem;
+    align-items: stretch;
+  }
+
+  .grid-card {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid rgba(184, 151, 92, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(184, 151, 92, 0.4);
+  }
+
+  .grid-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: all 0.4s ease;
+  }
+
+  .inspiration-caption {
+    padding: 0.9rem 1rem 1.1rem;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    background: rgba(250, 247, 240, 0.6);
+    border-top: 1px solid rgba(184, 151, 92, 0.1);
+    font-weight: 300;
+  }
+
+  .inspiration-caption span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--gold);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  @media (max-width: 700px) {
+    .image-grid {
+      gap: 1rem;
+    }
+    .grid-card img {
+      height: 220px;
+    }
+    .inspiration-header h3 {
+      font-size: 1.4rem;
+    }
+    .dress-card-body { grid-template-columns: 1fr; gap: 1.2rem; }
+    .dress-card-header, .dress-card-body { padding: 1.5rem; }
+    .dress-no-wear { grid-column: 1; }
+  }
+
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(18px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    border-top: 1px solid rgba(184,151,92,0.2);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('dresscode');</script>
+
+<section class="page-hero">
+  <div>
+    <p class="section-tag fade-up fade-up-1">What to Wear</p>
+    <h1 class="section-title fade-up fade-up-2">Dress Codes</h1>
+    <div class="divider centered fade-up fade-up-3">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+    <p style="font-size:0.8rem;letter-spacing:0.15em;color:var(--text-light);font-weight:200;" class="fade-up fade-up-3">Each day has its own unique dress code to complement the occasion</p>
+  </div>
+</section>
+
+<div class="page-content">
+  <div class="dress-days">
+
+    <!-- Day 1 -->
+    <div class="dress-day-card">
+      <div class="dress-card-header">
+        <div>
+          <p class="dress-day-label">Day One · Friday 19th February</p>
+          <h2 class="dress-day-name">Welcome Dinner</h2>
+        </div>
+        <span class="dress-style-pill">All Black</span>
+      </div>
+      <div class="dress-card-body">
+        <div class="dress-gender">
+          <h4>Women</h4>
+          <p>Black dresses</p>
+        </div>
+        <div class="dress-gender">
+          <h4>Men</h4>
+          <p>Black suits</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="dress-day-card">
+      <div class="dress-card-header">
+        <div>
+          <p class="dress-day-label">Day Two · Saturday 20th February</p>
+          <h2 class="dress-day-name">Wedding Day & Reception</h2>
+        </div>
+        <span class="dress-style-pill">Glamorous / Evening Wear</span>
+      </div>
+      <div class="dress-card-body">
+        <div class="dress-gender">
+          <h4>Women</h4>
+          <p>Long dresses</p>
+        </div>
+        <div class="dress-gender">
+          <h4>Men</h4>
+          <p>Suits</p>
+        </div>
+        <div class="dress-no-wear">
+          <h4>Please do not wear</h4>
+          <p>Black, white, cream, gold, or silver.<br>Bright colours are warmly encouraged — the more vibrant, the better.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="dress-day-card">
+      <div class="dress-card-header">
+        <div>
+          <p class="dress-day-label">Day Three · Sunday 21st February</p>
+          <h2 class="dress-day-name">Final Hacienda Fiesta</h2>
+        </div>
+        <span class="dress-style-pill">Boho / Relaxed</span>
+      </div>
+      <div class="dress-card-body">
+        <div class="dress-gender">
+          <h4>Vibe</h4>
+          <p>Relaxed, sun-kissed, boho-inspired</p>
+        </div>
+        <div class="dress-gender">
+          <h4>Swimwear</h4>
+          <p>Swimwear is very much welcome for the poolside celebrations</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- dress code inspiration + image grid section (integrated) -->
+  <div class="colour-note">
+    <p>Above all, we want you to feel <strong>wonderful</strong>. Dress in a way that makes you feel incredible — we cannot wait to celebrate with you.</p>
+  </div>
+
+  <!-- EXPANDED INSPIRATION IMAGE GRID SECTION with all five provided images -->
+  <div class="inspiration-grid-section">
+    <div class="inspiration-header">
+      <div class="section-mini-tag">Style inspiration</div>
+      <h3>Dress code muse · looks we love</h3>
+      <div class="divider centered" style="margin-top: 0.75rem; margin-bottom: 0.2rem;">
+        <div class="divider-line" style="background: var(--gold); height: 1px; width: 45px;"></div>
+        <div class="divider-diamond" style="background: var(--gold);"></div>
+        <div class="divider-line" style="background: var(--gold); height: 1px; width: 45px;"></div>
+      </div>
+      <p style="font-size:0.75rem; color: var(--text-light); margin-top: 0.8rem; font-style: italic;">From glamorous evening silhouettes to effortless boho elegance & vibrant fiesta energy</p>
+    </div>
+
+    <div class="image-grid">
+      <!-- Image 1: original webp (evening glamour) -->
+      <div class="grid-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777612043/465A894B-BDDC-4100-9DCC-B5E87AA62969_gbokja.webp" 
+             alt="Elegant dress code inspiration - glamorous evening wear" 
+             loading="lazy">
+        <div class="inspiration-caption">
+          ✦ Evening Glamour ✦
+          <span>Long silhouettes & rich textures</span>
+        </div>
+      </div>
+      <!-- Image 2: original jpg (boho fiesta vibe) -->
+      <div class="grid-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777612059/8EF49CEC-9ADF-4733-ACAC-E0967404855E_uutqkn.jpg" 
+             alt="Boho relaxed hacienda fiesta inspiration" 
+             loading="lazy">
+        <div class="inspiration-caption">
+          ✦ Boho Fiesta ✦
+          <span>Relaxed, airy, sun-kissed</span>
+        </div>
+      </div>
+      <!-- NEW Image 3 (provided): D5C22F9A... vibrant look) -->
+      <div class="grid-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777612059/D5C22F9A-2108-4F7F-A0E0-BFB4AFAB2A34_synnjs.jpg" 
+             alt="Vibrant wedding guest outfit - bold colours encouraged" 
+             loading="lazy">
+        <div class="inspiration-caption">
+          ✦ Viva Magenta ✦
+          <span>Bold, bright & celebratory</span>
+        </div>
+      </div>
+      <!-- NEW Image 4 (provided): 504C6FFC... ethereal elegance) -->
+      <div class="grid-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777612039/504C6FFC-EDF0-497F-8790-44C66EE5383E_jydymp.jpg" 
+             alt="Romantic long dress - glamorous evening wear inspiration" 
+             loading="lazy">
+        <div class="inspiration-caption">
+          ✦ Golden Hour ✦
+          <span>Romantic movement & grace</span>
+        </div>
+      </div>
+      <!-- NEW Image 5 (provided): 27644412... relaxed modern boho) -->
+      <div class="grid-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777612037/27644412-88B7-4C1D-B11C-CC9E544DAAD8_h1pun6.jpg" 
+             alt="Chic boho relaxed outfit for hacienda poolside" 
+             loading="lazy">
+        <div class="inspiration-caption">
+          ✦ Sunlit Serenity ✦
+          <span>Boho-chic & poolside ease</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- subtle caption line mixing dress code philosophy -->
+    <div style="text-align: center; margin-top: 1.9rem; font-size: 0.7rem; letter-spacing: 0.1rem; color: var(--text-light); font-style: normal; border-top: none; padding-top: 0.4rem;">
+      <span style="background: rgba(184,151,92,0.04); padding: 0.3rem 1rem;">Let your personal radiance shine — be bold, be vibrant, be you.</span>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+
+<!-- ensure nav / hero styling and animations consistent with original design -->
+<style>
+  /* Additional fallback for nav and hero styling to match aesthetic */
+  .page-hero {
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(250,247,240,0.85), rgba(250,247,240,0.98));
+  }
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  .divider-line {
+    width: 55px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+  .divider-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .divider.centered {
+    justify-content: center;
+  }
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+  .fade-up-1 { animation-delay: 0.1s; }
+  .fade-up-2 { animation-delay: 0.2s; }
+  .fade-up-3 { animation-delay: 0.3s; }
+  .page-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 1.5rem 2rem;
+  }
+  .footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    border-top: 1px solid rgba(184,151,92,0.2);
+    margin-top: 2rem;
+    background: transparent;
+  }
+  @media (max-width: 600px) {
+    .page-content {
+      padding: 0 1rem 2rem;
+    }
+  }
+</style>
+</body>
+</html>

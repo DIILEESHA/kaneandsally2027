@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — About Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 3rem 7rem;
+    align-items: start;
+  }
+
+  .about-text { padding-right: 4rem; border-right: 1px solid rgba(184,147,90,0.12); }
+
+  .about-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 300;
+    line-height: 2;
+    color: var(--text-light);
+    margin: 1.8rem 0 2.5rem;
+    font-style: italic;
+  }
+  .about-body p { margin-bottom: 1.6rem; animation: fadeUp .7s ease forwards; opacity: 0; }
+  .about-body p:nth-child(1) { animation-delay:.1s; }
+  .about-body p:nth-child(2) { animation-delay:.22s; }
+  .about-body p:nth-child(3) { animation-delay:.34s; }
+  .about-body p:nth-child(4) { animation-delay:.46s; }
+  .about-body strong { color: var(--text); font-style: normal; font-weight: 400; }
+
+  .quote-pull {
+    border-left: 2px solid var(--gold);
+    padding: .8rem 0 .8rem 2rem;
+    margin: 2rem 0;
+    animation: fadeUp .7s .4s ease forwards;
+    opacity: 0;
+  }
+  .quote-pull p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .signatures {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(184,147,90,0.15);
+    animation: fadeUp .7s .55s ease forwards;
+    opacity: 0;
+  }
+  .sig-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+    margin-bottom: .2rem;
+  }
+  .sig-role { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text-muted); }
+  .sig-amp { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-style: italic; color: var(--champagne); }
+
+  /* Image column */
+  .about-imgs { padding-left: 3.5rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .about-img-main { overflow: hidden; aspect-ratio: 3/4; margin-bottom: 4px; }
+  .about-img-main img { width:100%; height:100%; object-fit:cover; display:block; }
+  .about-img-row { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+  .about-img-row div { overflow:hidden; aspect-ratio:1/1; }
+  .about-img-row div img { width:100%; height:100%; object-fit:cover; display:block; filter:brightness(.93); }
+
+  .rsvp-cta {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(184,147,90,0.12);
+    padding-top: 3rem;
+  }
+  .rsvp-cta-text h3 { font-family:'Cormorant Garamond',serif; font-size:clamp(1.5rem,3.5vw,2.2rem); font-weight:300; font-style:italic; color:var(--text); margin-bottom:.5rem; }
+  .rsvp-cta-text p { font-size:.83rem; color:var(--text-light); font-weight:200; }
+
+  @media (max-width:900px) {
+    .about-layout { grid-template-columns:1fr; padding:3rem 1.5rem 4rem; }
+    .about-text { padding-right:0; border-right:none; padding-bottom:3rem; border-bottom:1px solid rgba(184,147,90,.12); }
+    .about-imgs { padding-left:0; padding-top:2.5rem; position:static; }
+    .rsvp-cta { padding:2.5rem 1.5rem 5rem; flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('about');</script>
+
+<div class="about-layout">
+  <div class="about-text">
+    <p class="section-tag fade-up fade-up-1">Our Story</p>
+    <h1 class="section-title fade-up fade-up-2">About Kane & Sally</h1>
+    <div class="divider fade-up fade-up-3">
+      <div class="divider-line" style="max-width:60px;"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line" style="max-width:200px;"></div>
+    </div>
+    <div class="about-body">
+      <p>We would love to formally invite you to the wedding of <strong>Kane & Sally</strong>, to share our love with the people closest to us — and that means you.</p>
+      <p>Living so far away from many of you, we know how rare it is to have everyone together in one place. We felt there was no better reason than <strong>love</strong> to bring our family and friends together, to celebrate this union and create something truly unforgettable.</p>
+      <p>On a weekend aligned with a special celestial moment, we come together in marriage beneath the stars.</p>
+      <p>If you know us, you know we love to have a dance. This will be a <strong>fully immersive, high-energy, creative wedding experience</strong> — truly one for the books — so bring your dancing shoes.</p>
+    </div>
+    <div class="quote-pull">
+      <p>Set across three days, we wanted to make sure that as you travel to be with us, you are completely looked after — through incredible entertainment, beautiful surroundings, and the joy of sharing this moment together.</p>
+    </div>
+    <div class="about-body" style="margin-top:0;">
+      <p>This will be a deeply special celebration, and we cannot wait to share it with you. 🤍</p>
+    </div>
+    <div class="signatures">
+      <div><span class="sig-name">Kane</span><span class="sig-role">Groom</span></div>
+      <span class="sig-amp">&</span>
+      <div><span class="sig-name">Sally</span><span class="sig-role">Bride</span></div>
+    </div>
+  </div>
+
+  <div class="about-imgs fade-up fade-up-3">
+    <!-- REPLACE: your couple images -->
+    <div class="about-img-main">
+      <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608518/B952A257-D685-42F5-8FC7-0B61F7E13232_yfpsks.jpg" alt="Kane & Sally">
+    </div>
+    <div class="about-img-row">
+      <div><img src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608805/002D1997-6EFC-4200-9846-43964D603BC9_r3fs1e.jpg" alt="Couple"></div>
+      <div><img src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608544/445650A9-24EF-40A6-A712-DA8123B52CBA_aal8i7.jpg" alt="Couple"></div>
+    </div>
+  </div>
+</div>
+
+<div class="rsvp-cta fade-up">
+  <div class="rsvp-cta-text">
+    <h3>We hope to see you there</h3>
+    <p>Please RSVP by July 2026 — keeping this celebration intimate and personal.</p>
+  </div>
+  <a href="rsvp.html" class="btn-outline">Send Your RSVP</a>
+</div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+</body>
+</html>

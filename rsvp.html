@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — RSVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .rsvp-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 2rem 6rem;
+  }
+
+  .form-section {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  .form-section:nth-child(1) { animation-delay: 0.05s; }
+  .form-section:nth-child(2) { animation-delay: 0.15s; }
+  .form-section:nth-child(3) { animation-delay: 0.25s; }
+  .form-section:nth-child(4) { animation-delay: 0.35s; }
+  .form-section:nth-child(5) { animation-delay: 0.45s; }
+  .form-section:nth-child(6) { animation-delay: 0.55s; }
+
+  .form-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .form-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,169,110,0.2);
+  }
+
+  .field-group {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .field-group.two-col { grid-template-columns: 1fr 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201,169,110,0.35);
+    padding: 0.6rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.25s;
+    width: 100%;
+    border-radius: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .field select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c9a96e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 1.5rem;
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-bottom-color: var(--gold);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: rgba(122,110,98,0.4);
+    font-size: 0.95rem;
+  }
+
+  /* Radio / Checkbox options */
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .option-group.inline { flex-direction: row; flex-wrap: wrap; gap: 0.8rem; }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    padding: 0.7rem 1rem;
+    border: 1px solid rgba(201,169,110,0.2);
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .option-item:hover {
+    border-color: rgba(201,169,110,0.5);
+    background: rgba(201,169,110,0.04);
+  }
+
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .option-indicator {
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(201,169,110,0.5);
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .option-item input[type="radio"] ~ .option-indicator {
+    border-radius: 50%;
+  }
+
+  .option-item input:checked ~ .option-indicator {
+    border-color: var(--gold);
+    background: var(--gold);
+  }
+
+  .option-item input:checked ~ .option-indicator::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: var(--cream);
+    border-radius: inherit;
+  }
+
+  .option-item input[type="checkbox"]:checked ~ .option-indicator::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 3px;
+    width: 5px; height: 8px;
+    border: 1.5px solid var(--cream);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .option-label {
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .option-item.selected {
+    border-color: var(--gold);
+    background: rgba(201,169,110,0.06);
+  }
+
+  /* Guest name field — shown conditionally */
+  .conditional-field {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+
+  .conditional-field.visible {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 1.2rem;
+  }
+
+  /* Other accommodation field */
+  .other-accommodation {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+
+  .other-accommodation.visible {
+    max-height: 80px;
+    opacity: 1;
+    margin-top: 1.2rem;
+  }
+
+  /* Submit */
+  .submit-area {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(201,169,110,0.2);
+    animation: fadeUp 0.7s 0.65s ease forwards;
+    opacity: 0;
+  }
+
+  .submit-area p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .submit-btn {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 1.1rem 3.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 240px;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    background: transparent;
+    color: var(--gold);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Success State */
+  .success-message {
+    display: none;
+    text-align: center;
+    padding: 4rem 2rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .success-message.visible { display: block; }
+
+  .success-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .success-message h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .success-message p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 200;
+    line-height: 1.8;
+    max-width: 440px;
+    margin: 0 auto 2rem;
+  }
+
+  /* Error toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--dark);
+    color: var(--cream);
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    transition: transform 0.4s ease;
+    z-index: 9999;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Firebase loading */
+  .firebase-status {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    text-align: center;
+    padding: 0.5rem;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 640px) {
+    .field-group.two-col { grid-template-columns: 1fr; }
+    .option-group.inline { flex-direction: column; }
+    .rsvp-wrapper { padding: 1.5rem 1.5rem 4rem; }
+    .submit-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<script src="shared.js"></script>
+<script>injectNav('rsvp');</script>
+
+<section class="page-hero">
+  <div>
+    <p class="section-tag fade-up fade-up-1">Confirm Your Attendance</p>
+    <h1 class="section-title fade-up fade-up-2">RSVP</h1>
+    <div class="divider centered fade-up fade-up-3">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+    <p style="font-size:0.8rem;letter-spacing:0.15em;color:var(--text-light);font-weight:200;" class="fade-up fade-up-3">Please respond by July 2026</p>
+  </div>
+</section>
+
+<div class="rsvp-wrapper">
+
+  <!-- Success Message (hidden until submit) -->
+  <div class="success-message" id="successMessage">
+    <div class="success-icon">🤍</div>
+    <h2>Thank you so much</h2>
+    <p>Your RSVP has been received. We cannot wait to celebrate this special moment with you.</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;">Kane & Sally</p>
+  </div>
+
+  <!-- RSVP Form -->
+  <form id="rsvpForm" novalidate>
+
+    <!-- Section 1: Guest Details -->
+    <div class="form-section">
+      <p class="form-section-label">Guest Details</p>
+      <div class="field-group">
+        <div class="field">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
+        </div>
+      </div>
+      <div class="field-group two-col">
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number (WhatsApp preferred)</label>
+          <input type="tel" id="phone" name="phone" placeholder="+44 7000 000000">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Attendance -->
+    <div class="form-section">
+      <p class="form-section-label">Attendance</p>
+
+      <div class="field" style="margin-bottom:1.5rem;">
+        <label style="margin-bottom:0.8rem;display:block;">Will you be attending the wedding? *</label>
+        <div class="option-group inline" id="attendingGroup">
+          <label class="option-item" id="attendYes">
+            <input type="radio" name="attending" value="yes" required>
+            <span class="option-indicator"></span>
+            <span class="option-label">Yes, I'll be there</span>
+          </label>
+          <label class="option-item" id="attendNo">
+            <input type="radio" name="attending" value="no">
+            <span class="option-indicator"></span>
+            <span class="option-label">Sadly, I can't attend</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field" id="plusOneSection">
+        <label style="margin-bottom:0.8rem;display:block;">Will you be bringing a guest?</label>
+        <div class="option-group inline" id="plusOneGroup">
+          <label class="option-item" id="guestNo">
+            <input type="radio" name="plusOne" value="no">
+            <span class="option-indicator"></span>
+            <span class="option-label">No</span>
+          </label>
+          <label class="option-item" id="guestYes">
+            <input type="radio" name="plusOne" value="yes">
+            <span class="option-indicator"></span>
+            <span class="option-label">Yes</span>
+          </label>
+        </div>
+
+        <div class="conditional-field" id="guestNameField">
+          <div class="field">
+            <label for="guestName">Guest's Full Name *</label>
+            <input type="text" id="guestName" name="guestName" placeholder="Guest's full name">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Event Attendance -->
+    <div class="form-section" id="eventsSection">
+      <p class="form-section-label">Event Attendance</p>
+      <label style="font-size:0.78rem;color:var(--text-light);font-weight:200;display:block;margin-bottom:1rem;">Please select all events you plan to attend</label>
+      <div class="option-group">
+        <label class="option-item">
+          <input type="checkbox" name="events" value="welcome_dinner">
+          <span class="option-indicator"></span>
+          <span class="option-label">Welcome Dinner — Friday 19th February</span>
+        </label>
+        <label class="option-item">
+          <input type="checkbox" name="events" value="wedding_day">
+          <span class="option-indicator"></span>
+          <span class="option-label">Wedding Day — Saturday 20th February</span>
+        </label>
+        <label class="option-item">
+          <input type="checkbox" name="events" value="sunday_fiesta">
+          <span class="option-indicator"></span>
+          <span class="option-label">Final Hacienda Fiesta — Sunday 21st February</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Section 4: Accommodation -->
+    <div class="form-section" id="accomSection">
+      <p class="form-section-label">Accommodation</p>
+      <div class="field">
+        <label style="margin-bottom:0.8rem;display:block;">Where will you be staying?</label>
+        <div class="option-group" id="accomGroup">
+          <label class="option-item">
+            <input type="radio" name="accommodation" value="fiesta_americana">
+            <span class="option-indicator"></span>
+            <span class="option-label">Fiesta Americana Hacienda San Antonio El Puente Resort & Spa</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="accommodation" value="radisson">
+            <span class="option-indicator"></span>
+            <span class="option-label">Radisson Hotel Cuernavaca</span>
+          </label>
+          <label class="option-item" id="otherAccomOption">
+            <input type="radio" name="accommodation" value="other">
+            <span class="option-indicator"></span>
+            <span class="option-label">Other (please specify)</span>
+          </label>
+        </div>
+
+        <div class="other-accommodation" id="otherAccomField">
+          <div class="field">
+            <label for="otherAccom">Please specify</label>
+            <input type="text" id="otherAccom" name="otherAccom" placeholder="Hotel or address">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Transport -->
+    <div class="form-section" id="transportSection">
+      <p class="form-section-label">Transport</p>
+
+      <div class="field" style="margin-bottom:1.5rem;">
+        <label style="margin-bottom:0.8rem;display:block;">Will you require transport to and from the wedding events?</label>
+        <div class="option-group inline" id="transportGroup">
+          <label class="option-item">
+            <input type="radio" name="transport" value="yes">
+            <span class="option-indicator"></span>
+            <span class="option-label">Yes</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="transport" value="no">
+            <span class="option-indicator"></span>
+            <span class="option-label">No</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pickupLocation">Pickup Location (hotel or other)</label>
+        <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Hotel name or address">
+      </div>
+    </div>
+
+    <!-- Section 6: Dietary Requirements -->
+    <div class="form-section">
+      <p class="form-section-label">Dietary Requirements</p>
+      <div class="field">
+        <label for="dietary">Please let us know of any dietary requirements or allergies</label>
+        <textarea id="dietary" name="dietary" placeholder="Any dietary requirements, allergies, or intolerances we should be aware of…"></textarea>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <p>We can't wait to celebrate this special moment with you.<br>Thank you for taking the time to complete your RSVP 🤍</p>
+      <button type="submit" class="submit-btn" id="submitBtn">Send RSVP</button>
+      <p class="firebase-status" id="firebaseStatus" style="margin-top:1rem;"></p>
+    </div>
+
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  <p>Kane & Sally · February 2027 · Hacienda Acamilpa, Mexico</p>
+</footer>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ── FIREBASE CONFIG ──────────────────────────────────────────────────────────
+  // TODO: Replace with your actual Firebase project config from:
+  // Firebase Console → Project Settings → Your Apps → Web App → Config
+  const firebaseConfig = {
+  apiKey: "AIzaSyD-MdDiBLpWATANH2Lq82kjxnhWkLVMtvs",
+  authDomain: "sally-7fae6.firebaseapp.com",
+  projectId: "sally-7fae6",
+  storageBucket: "sally-7fae6.firebasestorage.app",
+  messagingSenderId: "480188246707",
+  appId: "1:480188246707:web:2b461c13545a89e7f79ec6",
+  measurementId: "G-1J7YMSSH6V"
+  };
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  let db;
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    document.getElementById('firebaseStatus').textContent = '';
+  } catch (e) {
+    document.getElementById('firebaseStatus').textContent = '⚠ Firebase not yet configured — please add your project credentials.';
+  }
+
+  // ── FORM LOGIC ───────────────────────────────────────────────────────────────
+
+  // Radio / checkbox visual selection
+  document.querySelectorAll('.option-item input').forEach(input => {
+    input.addEventListener('change', () => {
+      if (input.type === 'radio') {
+        const group = input.closest('.option-group, .field');
+        group.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+      }
+      if (input.checked) input.closest('.option-item').classList.add('selected');
+      else input.closest('.option-item').classList.remove('selected');
+    });
+  });
+
+  // Show/hide plus-one name
+  document.querySelectorAll('input[name="plusOne"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const field = document.getElementById('guestNameField');
+      field.classList.toggle('visible', r.value === 'yes' && r.checked);
+    });
+  });
+
+  // Show/hide other accommodation
+  document.querySelectorAll('input[name="accommodation"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const field = document.getElementById('otherAccomField');
+      field.classList.toggle('visible', r.value === 'other');
+    });
+  });
+
+  // ── SUBMIT ───────────────────────────────────────────────────────────────────
+  document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const btn = document.getElementById('submitBtn');
+
+    // Basic validation
+    const fullName = form.fullName.value.trim();
+    const email = form.email.value.trim();
+    const attending = form.querySelector('input[name="attending"]:checked');
+
+    if (!fullName) { showToast('Please enter your full name.'); return; }
+    if (!email || !email.includes('@')) { showToast('Please enter a valid email address.'); return; }
+    if (!attending) { showToast('Please let us know if you\'ll be attending.'); return; }
+
+    // Collect events
+    const events = [...form.querySelectorAll('input[name="events"]:checked')].map(c => c.value);
+
+    // Collect accommodation
+    const accomEl = form.querySelector('input[name="accommodation"]:checked');
+    const accommodation = accomEl ? accomEl.value : '';
+    const otherAccom = accommodation === 'other' ? form.otherAccom.value.trim() : '';
+
+    // Collect transport
+    const transportEl = form.querySelector('input[name="transport"]:checked');
+
+    // Plus one
+    const plusOneEl = form.querySelector('input[name="plusOne"]:checked');
+    const plusOne = plusOneEl ? plusOneEl.value : 'no';
+    const guestName = plusOne === 'yes' ? form.guestName.value.trim() : '';
+
+    const rsvpData = {
+      fullName,
+      email,
+      phone: form.phone.value.trim(),
+      attending: attending.value,
+      plusOne,
+      guestName,
+      events,
+      accommodation,
+      otherAccom,
+      requiresTransport: transportEl ? transportEl.value : '',
+      pickupLocation: form.pickupLocation.value.trim(),
+      dietary: form.dietary.value.trim(),
+      submittedAt: serverTimestamp()
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      if (!db) throw new Error('Firebase not configured');
+      await addDoc(collection(db, 'rsvps'), rsvpData);
+      showSuccess();
+    } catch (err) {
+      console.error('Firestore error:', err);
+      // Fallback: log to console + show success (so user experience isn't broken during setup)
+      if (err.message === 'Firebase not configured') {
+        showToast('Firebase not yet configured. See console for RSVP data.');
+        console.log('RSVP Data (Firebase not configured):', rsvpData);
+      } else {
+        showToast('Something went wrong. Please try again.');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Send RSVP';
+    }
+  });
+
+  function showSuccess() {
+    document.getElementById('rsvpForm').style.display = 'none';
+    const msg = document.getElementById('successMessage');
+    msg.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+</script>
+</body>
+</html>

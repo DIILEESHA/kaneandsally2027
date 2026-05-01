@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kane & Sally — February 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f8f4ee;
+    --gold: #b8935a;
+    --text: #2e2820;
+    --text-light: #7a6e62;
+    --champagne: #e8d9bc;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+  }
+
+  /* Left — full bleed image */
+  .split-img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .split-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.88);
+  }
+
+  .split-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(23,20,15,0.35) 0%, rgba(23,20,15,0.1) 100%);
+  }
+
+  .split-img-caption {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
+
+  .split-img-caption p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.1;
+  }
+
+  .split-img-caption span {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    display: block;
+    margin-top: 0.6rem;
+  }
+
+  /* Right — password form */
+  .split-form {
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 4rem;
+    position: relative;
+  }
+
+  .form-inner {
+    width: 100%;
+    max-width: 360px;
+    animation: fadeUp 1s 0.2s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.2rem 0;
+  }
+  .dl { flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--champagne), transparent); }
+  .dd { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  .date-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    font-weight: 200;
+  }
+
+  .field-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .pw-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(184,147,90,0.35);
+    padding: 0.65rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text);
+    text-align: center;
+    letter-spacing: 0.4em;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-bottom: 2rem;
+  }
+  .pw-input:focus { border-bottom-color: var(--gold); }
+  .pw-input::placeholder { color: var(--champagne); font-size: 1.1rem; letter-spacing: 0.2em; }
+
+  .enter-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    padding: 1rem 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .enter-btn:hover { background: var(--gold); color: var(--cream); }
+
+  .error {
+    margin-top: 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: #a06060;
+    text-align: center;
+    min-height: 1.2em;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .error.show { opacity: 1; }
+
+  .byline {
+    position: absolute;
+    bottom: 2rem;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--champagne);
+  }
+
+  /* Mobile: stack */
+  @media (max-width: 768px) {
+    .split { grid-template-columns: 1fr; }
+    .split-img {
+      height: 42vh;
+      min-height: 280px;
+    }
+    .split-form { padding: 3rem 2rem; min-height: 60vh; }
+    .byline { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="split">
+  <!-- Image side -->
+  <div class="split-img">
+    <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/f_auto,q_auto/v1777608502/CD73E17E-4E59-4FBE-90DE-6FC5A399BDF2_skcbq9.jpg" alt="Wedding venue" loading="eager">
+    <div class="split-img-overlay"></div>
+    <div class="split-img-caption">
+      <p>Kane<br>& Sally</p>
+      <span>Hacienda Acamilpa · Morelos, Mexico</span>
+    </div>
+  </div>
+
+  <!-- Form side -->
+  <div class="split-form">
+    <div class="form-inner">
+      <div class="monogram">K & S</div>
+      <div class="divider">
+        <div class="dl"></div>
+        <div class="dd"></div>
+        <div class="dl"></div>
+      </div>
+      <p class="date-text">19–21 February 2027</p>
+
+      <label class="field-label">Enter Password to Continue</label>
+      <input class="pw-input" type="password" id="pw" placeholder="• • • • • •" autocomplete="off">
+      <button class="enter-btn" onclick="check()">Enter</button>
+      <p class="error" id="err">Incorrect password. Please try again.</p>
+    </div>
+    <p class="byline">Kane & Sally · Private Website</p>
+  </div>
+</div>
+
+<script>
+  const PW = "kaneandsally2027";
+  document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+  function check() {
+    if (document.getElementById('pw').value.trim().toLowerCase() === PW) {
+      sessionStorage.setItem('ks_auth', '1');
+      window.location.href = 'home.html';
+    } else {
+      const e = document.getElementById('err');
+      e.classList.add('show');
+      document.getElementById('pw').value = '';
+      setTimeout(() => e.classList.remove('show'), 3500);
+    }
+  }
+</script>
+</body>
+</html>
