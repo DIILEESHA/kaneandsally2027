@@ -11,7 +11,7 @@ function injectNav(activePage) {
   const nav = `
   <nav class="site-nav" id="siteNav">
     <div class="nav-inner">
-      <a href="home.html" class="nav-logo">K & S</a>
+      <a href="home.html" class="nav-logo">K&S</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>

@@ -205,7 +205,7 @@
 
   .grid-card img {
     width: 100%;
-    height: 280px;
+    height: 580px;
     object-fit: cover;
     display: block;
     transition: all 0.4s ease;
@@ -234,14 +234,116 @@
     margin-top: 0.3rem;
   }
 
+  /* ----- NEW: SATURDAY COLLAGE SECTION (added without altering existing structure) ----- */
+  .saturday-collage-section {
+    margin-top: 4rem;
+    animation: fadeUp 0.7s 0.75s ease forwards;
+    opacity: 0;
+  }
+
+  .collage-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .collage-header .collage-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .collage-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .collage-header p {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 0.8rem;
+    font-style: italic;
+  }
+
+  .collage-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.6rem;
+    align-items: stretch;
+  }
+
+  .collage-card {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid rgba(184, 151, 92, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .collage-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(184, 151, 92, 0.4);
+  }
+
+  .collage-card img {
+    width: 100%;
+    height: 580px;
+    object-fit: cover;
+    display: block;
+    transition: all 0.4s ease;
+  }
+
+  .collage-caption {
+    padding: 0.9rem 1rem 1.1rem;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    background: rgba(250, 247, 240, 0.6);
+    border-top: 1px solid rgba(184, 151, 92, 0.1);
+    font-weight: 300;
+  }
+
+  .collage-caption span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--gold);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
   @media (max-width: 700px) {
     .image-grid {
       gap: 1rem;
     }
     .grid-card img {
-      height: 220px;
+      height: auto;
+    }
+    .collage-grid {
+      gap: 1rem;
+    }
+    .collage-card img {
+      height: auto;
     }
     .inspiration-header h3 {
+      font-size: 1.4rem;
+    }
+    .collage-header h3 {
       font-size: 1.4rem;
     }
     .dress-card-body { grid-template-columns: 1fr; gap: 1.2rem; }
@@ -430,6 +532,70 @@
       <span style="background: rgba(184,151,92,0.04); padding: 0.3rem 1rem;">Let your personal radiance shine — be bold, be vibrant, be you.</span>
     </div>
   </div>
+
+  <!-- ===== NEW: SATURDAY COLLAGE IMAGES SECTION (added without altering any existing design/structure) ===== -->
+  <div class="saturday-collage-section">
+    <div class="collage-header">
+      <div class="collage-tag">Saturday's Dress Inspiration</div>
+      <h3>Glamorous evening wear · collage</h3>
+      <div class="divider centered" style="margin-top: 0.75rem; margin-bottom: 0.2rem;">
+        <div class="divider-line" style="background: var(--gold); height: 1px; width: 45px;"></div>
+        <div class="divider-diamond" style="background: var(--gold);"></div>
+        <div class="divider-line" style="background: var(--gold); height: 1px; width: 45px;"></div>
+      </div>
+      <p style="font-size:0.75rem; color: var(--text-light); margin-top: 0.8rem; font-style: italic;">Vibrant long dresses, bold colours & elegant silhouettes for the wedding reception</p>
+    </div>
+
+    <div class="collage-grid">
+      <!-- Collage Image 1 -->
+      <div class="collage-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777703417/A7FF5062-50F1-4409-B185-7353699B502D_zly5wj.jpg" 
+             alt="Glamorous vibrant pink evening dress for Saturday wedding" 
+             loading="lazy">
+        <div class="collage-caption">
+          ✦ Radiant Fuschia ✦
+          <span>Bold & unforgettable</span>
+        </div>
+      </div>
+      <!-- Collage Image 2 -->
+      <div class="collage-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777703415/D8310764-84C9-48E7-A228-31B1F469F8B7_y7ignr.jpg" 
+             alt="Elegant colourful tiered evening gown inspiration" 
+             loading="lazy">
+        <div class="collage-caption">
+          ✦ Sunset Sorbet ✦
+          <span>Dreamy layers & movement</span>
+        </div>
+      </div>
+      <!-- Collage Image 3 -->
+      <div class="collage-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777703415/85BDCEA0-B678-4E0F-ADDD-195D81353BA0_lu5vdg.jpg" 
+             alt="Chic vibrant orange long dress for wedding guest" 
+             loading="lazy">
+        <div class="collage-caption">
+          ✦ Citrus Glow ✦
+          <span>Bright, joyful & glamorous</span>
+        </div>
+      </div>
+      <!-- Collage Image 4 -->
+      <div class="collage-card">
+        <img src="https://res.cloudinary.com/dpimgh4xr/image/upload/v1777703414/4F612F67-FA1F-4CA9-BA6B-BEFA831A627D_gllhi4.jpg" 
+             alt="Warm terracotta rose evening dress with elegant silhouette" 
+             loading="lazy">
+        <div class="collage-caption">
+          ✦ Terracotta Rose ✦
+          <span>Warm tones & effortless grace</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- additional colour encouragement note specific to Saturday -->
+    <div style="text-align: center; margin-top: 1.9rem; font-size: 0.7rem; letter-spacing: 0.1rem; color: var(--text-light); font-style: normal;">
+      <span style="background: rgba(184,151,92,0.04); padding: 0.3rem 1rem;">✨ Think jewel tones, fuchsia, emerald, burnt orange — let every colour shine ✨</span>
+    </div>
+  </div>
+  <!-- ===== END OF SATURDAY COLLAGE SECTION ===== -->
+
 </div>
 
 <footer class="footer">
@@ -489,7 +655,7 @@
   .fade-up-2 { animation-delay: 0.2s; }
   .fade-up-3 { animation-delay: 0.3s; }
   .page-content {
-    max-width: 980px;
+    max-width: 1080px;
     margin: 0 auto;
     padding: 0 1.5rem 2rem;
   }
